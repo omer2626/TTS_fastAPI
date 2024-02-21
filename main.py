@@ -1,12 +1,29 @@
 from fastapi import FastAPI, HTTPException
 import requests
 import base64
+from fastapi.middleware.cors import CORSMiddleware
  
 app = FastAPI()
- 
+
+app.add_middleware(
+
+    CORSMiddleware,
+
+    allow_origins=["*"],  # Allow requests from all origins (update this with your specific requirements)
+
+    allow_credentials=True,
+
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+
+    allow_headers=["*"],
+
+)
+
 API_URL = "https://api-inference.huggingface.co/models/facebook/mms-tts-eng"
 HEADERS = {"Authorization": "Bearer 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"}
- 
+
+
+
 def query(payload):
     response = requests.post(API_URL, headers=HEADERS, json=payload)
     if response.ok:
